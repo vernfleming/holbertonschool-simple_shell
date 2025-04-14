@@ -1,0 +1,77 @@
+.TH HSH 1 "April 2025" "hsh 1.0" "User Commands"
+.SH NAME
+hsh \- simple Unix command-line shell
+.SH SYNOPSIS
+.B hsh
+.SH DESCRIPTION
+.B hsh
+is a simple Unix command-line interpreter, or shell, written in C. It provides a user interface for access to the services of the operating system by executing commands.
+
+It mimics the behavior of
+.BR /bin/sh ,
+supports both interactive and non-interactive modes, and executes commands using the
+.B execve
+system call.
+
+.SH FEATURES
+.TP
+\fBInteractive Mode\fR
+Display a prompt and wait for user input line-by-line.
+.TP
+\fBNon-Interactive Mode\fR
+Accept commands from standard input (e.g. via piping or file redirection).
+.TP
+\fBCommand Execution\fR
+Searches the PATH for executables and runs them in child processes.
+.TP
+\fBBuilt-ins\fR
+Supports the built-in command \fBexit\fR to terminate the shell.
+.TP
+\fBError Handling\fR
+Consistent with \fB/bin/sh\fR — error messages are prefixed with the value of \fBargv[0]\fR.
+
+.SH USAGE
+.TP
+\fBInteractive Example:\fR
+.RS
+$ ./hsh  
+($) ls  
+file1 file2  
+($) exit  
+.RE
+.TP
+\fBNon-Interactive Example:\fR
+.RS
+$ echo "/bin/ls" | ./hsh  
+file1 file2  
+.RE
+
+.SH RETURN VALUE
+Returns the exit status of the last command executed. If the command is not found, returns 127.
+
+.SH FILES
+.TP
+.B /bin/sh
+Reference shell implementation.
+.TP
+.B ./hsh
+User-implemented shell binary.
+
+.SH BUGS
+This shell is for educational purposes and may not support advanced features such as:
+- Pipes (`|`)
+- Redirection (`>`, `<`)
+- Chaining commands using `&&`, `||`
+- Environment variable assignment or substitution
+
+.SH AUTHOR
+Written by [Your Name], for Holberton School / ALX.
+
+.SH SEE ALSO
+.BR sh (1),
+.BR execve (2),
+.BR fork (2),
+.BR wait (2),
+.BR getenv (3),
+.BR strtok (3)
+
