@@ -8,7 +8,46 @@
 extern char **environ;
 
 /**
- * main - Simple UNIX shell
+ * split_line - tokenizes the input line into an array of words
+ * @line: input command line
+ * Return: NULL-terminated array of words (tokens)
+ */
+
+char **split_line(char *line)
+{
+	int bufsize = 64, i = 0;
+	char **tokens = malloc(bufsize * sizeof(char *));
+	char *token;
+
+	if (!tokens)
+	{
+		perror("malloc");
+		exit(EXIT_FAILURE);
+	}
+
+	token = strtok(line, " \t\r\n");
+	while (token != NULL)
+	{
+		tokens[i++] = token;
+
+		if (i >= bufsize)
+		{
+			bufsize += 64;
+			tokens = realloc(tokens, bufsize * sizeof(char *));
+			if (!tokens)
+			{
+				perror("realloc");
+				exit(EXIT_FAILURE);
+			}
+		}
+		token = strtok(NULL, " \t\r\n");
+	}
+	tokens[i] = NULL;
+	return (tokens);
+}
+
+/**
+ * main - Simple UNIX shell 0.2 with arguments
  *
  * Return: 0 on success
  */
@@ -20,6 +59,7 @@ int main(void)
 	ssize_t nread;
 	pid_t pid;
 	int status;
+	char **args;
 
 	while (1)
 	{
@@ -33,16 +73,16 @@ int main(void)
 			break;
 		}
 
-		if (line[nread - 1] == '\n')
-			line[nread - 1] = '\0';
-
-		if (line[0] == '\0')
+		args = split_line(line);
+		if (args[0] == NULL)
+		{
+			free(args);
 			continue;
+		}
 
 		pid = fork();
 		if (pid == 0)
 		{
-			char *argv[] = {line, NULL};
 
 			if (execve(line, argv, environ) == -1)
 			{
@@ -57,9 +97,12 @@ int main(void)
 		else
 		{
 			perror("fork");
+			free(args);
 			free(line);
 			exit(EXIT_FAILURE);
 		}
+
+		free(args);
 	}
 
 	return (0);
