@@ -37,21 +37,21 @@ gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o hsh
 
 ## Usage
 
----
-
 Interactive Mode
 
 ```$ ./hsh
 ($) ls
 file1 file2
-($) exit```
+($) exit
+```
 
 ---
 
 Non-Interactive Mode
 
 ```$ echo "ls -l" | ./hsh
--rw-r--r-- 1 user user 1234 date file1```
+-rw-r--r-- 1 user user 1234 date file1
+```
 
 ---
 
@@ -59,7 +59,8 @@ Example Error Handling
 
 ```$ ./hsh
 ($) nonexistentcommand
-./hsh: 1: nonexistentcommand: not found```
+./hsh: 1: nonexistentcommand: not found
+```
 
 ---
 
