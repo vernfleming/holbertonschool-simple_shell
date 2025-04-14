@@ -37,7 +37,7 @@ gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o hsh
 
 ## Usage
 
-Interactive Mode
+### Interactive Mode
 
 ```$ ./hsh
 ($) ls
@@ -47,7 +47,7 @@ file1 file2
 
 ---
 
-Non-Interactive Mode
+### Non-Interactive Mode
 
 ```$ echo "ls -l" | ./hsh
 -rw-r--r-- 1 user user 1234 date file1
@@ -55,7 +55,7 @@ Non-Interactive Mode
 
 ---
 
-Example Error Handling
+### Example Error Handling
 
 ```$ ./hsh
 ($) nonexistentcommand
@@ -64,7 +64,7 @@ Example Error Handling
 
 ---
 
-Allowed Functions and System Calls
+### Allowed Functions and System Calls
 
 - access, chdir, close, execve, exit, _exit, fflush, fork, free, getcwd, getline, getpid
 - isatty, kill, malloc, open, opendir, perror, printf, fprintf, vfprintf, sprintf
@@ -72,7 +72,7 @@ Allowed Functions and System Calls
 
 ---
 
-All functions from string.h
+### All functions from string.h
 
 Project Structure
 - main.c - Main loop and entry point
@@ -86,7 +86,7 @@ Project Structure
 
 ---
 
-License
+## License
 
 Feel free to do with this as you please
 
