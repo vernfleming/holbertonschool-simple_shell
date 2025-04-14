@@ -84,9 +84,9 @@ int main(void)
 		if (pid == 0)
 		{
 
-			if (execve(line, argv, environ) == -1)
+			if (execve(args[0], args, environ) == -1)
 			{
-				perror("./shell");
+				perror("./hsh");
 				exit(EXIT_FAILURE);
 			}
 		}
