@@ -32,7 +32,8 @@ It is designed to mimic the behavior of `/bin/sh`, supporting both interactive a
 ## Compilation
 
 ```bash
-gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o hsh```
+gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o hsh
+```
 
 ## Usage
 
