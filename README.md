@@ -32,7 +32,7 @@ It is designed to mimic the behavior of `/bin/sh`, supporting both interactive a
 ## Compilation
 
 ```bash
-gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o hsh
+gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o hsh```
 
 ## Usage
 
@@ -40,25 +40,25 @@ gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o hsh
 
 Interactive Mode
 
-$ ./hsh
+```$ ./hsh
 ($) ls
 file1 file2
-($) exit
+($) exit```
 
 ---
 
 Non-Interactive Mode
 
-$ echo "ls -l" | ./hsh
--rw-r--r-- 1 user user 1234 date file1
+```$ echo "ls -l" | ./hsh
+-rw-r--r-- 1 user user 1234 date file1```
 
 ---
 
 Example Error Handling
 
-$ ./hsh
+```$ ./hsh
 ($) nonexistentcommand
-./hsh: 1: nonexistentcommand: not found
+./hsh: 1: nonexistentcommand: not found```
 
 ---
 
