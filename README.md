@@ -35,6 +35,8 @@ It is designed to mimic the behavior of `/bin/sh`, supporting both interactive a
 gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o hsh
 ```
 
+---
+
 ## Usage
 
 ### Interactive Mode
@@ -45,15 +47,11 @@ file1 file2
 ($) exit
 ```
 
----
-
 ### Non-Interactive Mode
 
 ```$ echo "ls -l" | ./hsh
 -rw-r--r-- 1 user user 1234 date file1
 ```
-
----
 
 ### Example Error Handling
 
@@ -62,19 +60,17 @@ file1 file2
 ./hsh: 1: nonexistentcommand: not found
 ```
 
----
-
 ### Allowed Functions and System Calls
 
 - access, chdir, close, execve, exit, _exit, fflush, fork, free, getcwd, getline, getpid
 - isatty, kill, malloc, open, opendir, perror, printf, fprintf, vfprintf, sprintf
 - putchar, read, readdir, signal, stat, lstat, fstat, strtok, wait, waitpid, wait3, wait4, write
+- All functions from string.h
 
 ---
 
-### All functions from string.h
+## Project Structure
 
-Project Structure
 - main.c - Main loop and entry point
 - prompt.c - Handles displaying and reading input
 - tokenize.c - Splits command strings into arguments
@@ -88,6 +84,4 @@ Project Structure
 
 ## License
 
-Feel free to do with this as you please
-
----
+Feel free to do with this as you please.
