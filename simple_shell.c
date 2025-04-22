@@ -138,10 +138,13 @@ int main(void)
 		command_path = find_command(args[0]);
 		if (!command_path)
 		  {
-		    fprintf(stderr, "./hsh: 1: %s not found\n", args[0]);
+		    fprintf(stderr, "./hsh: 1: %s: not found\n", args[0]);
 		    free(args);
 		    if (!isatty(STDIN_FILENO))
+		      {
+			free(line);
 		    exit(127);
+		      }
 		    continue;
 		  }
 
