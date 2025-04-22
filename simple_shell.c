@@ -71,7 +71,7 @@ char *find_command(char *cmd)
 	if (!path_copy)
 		return (NULL);
 
-		token = strtok(path_copy, ":");
+	token = strtok(path_copy, ":");
 		while (token)
 		{
 			len = strlen(token) + strlen(cmd) + 2;
