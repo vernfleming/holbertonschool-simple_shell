@@ -73,7 +73,7 @@ char *find_command(char *cmd)
 		}
 	}
 
-	if (!path)
+	if (!path || path[0] == '\0')
 		return (NULL);
 
 	path_copy = strdup(path);
