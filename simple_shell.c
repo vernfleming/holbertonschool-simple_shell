@@ -85,7 +85,7 @@ char *find_command(char *cmd)
 			if (access(full_path, X_OK) == 0)
 			{
 				free(path_copy);
-				return (full_path)
+				return (full_path);
 			}
 			free(full_path);
 			token = strtok(NULL, ":");
