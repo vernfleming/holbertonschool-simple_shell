@@ -57,7 +57,7 @@ char **split_line(char *line)
 
 char *find_command(char *cmd)
 {
-	char *path, *path_copy *token, *full_path;
+  char *path, *path_copy, *token, *full_path;
 	size_t len;
 
 	if (access(cmd, X_OK) == 0)
