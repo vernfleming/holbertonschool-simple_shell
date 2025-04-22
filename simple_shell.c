@@ -117,6 +117,7 @@ int main(void)
 	pid_t pid;
 	int status;
 	char **args;
+	char **env = environ;
 
 	while (1)
 	{
@@ -131,6 +132,19 @@ int main(void)
 		args = split_line(line);
 		if (args[0] == NULL)
 		{
+			free(args);
+			continue;
+		}
+
+
+		if (strcmp(args[0], "env") == 0)
+		{
+			while (*env)
+			{
+				write(STDOUT_FILENO, *env, strlen(*env));
+				write(STDOUT_FILENO, "\n", 1);
+				env++;
+			}
 			free(args);
 			continue;
 		}
