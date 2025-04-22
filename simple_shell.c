@@ -57,13 +57,22 @@ char **split_line(char *line)
 
 char *find_command(char *cmd)
 {
-  char *path, *path_copy, *token, *full_path;
+  char *path = NULL, *path_copy, *token, *full_path;
 	size_t len;
+	int i;
 
 	if (access(cmd, X_OK) == 0)
 		return (strdup(cmd));
 
-	path = getenv("PATH");
+	for (i = 0; environ[i]; i++)
+	{
+		if (strncmp(environ[i], "PATH=", 5) == 0)
+		{
+			path = environ[i] + 5;
+			break;
+		}
+	}
+
 	if (!path)
 		return (NULL);
 
@@ -91,7 +100,7 @@ char *find_command(char *cmd)
 			token = strtok(NULL, ":");
 		}
 	free(path_copy);
-        return(0);
+        return(NULL);
 }
 
 /**
