@@ -125,9 +125,8 @@ int main(void)
 
 		nread = getline(&line, &len, stdin);
 		if (nread == -1)
-		{
 			break;
-		}
+		
 
 		args = split_line(line);
 		if (args[0] == NULL)
@@ -168,8 +167,7 @@ int main(void)
 		}
 		free(command_path);
 		free(args);
-		free(line);
 	}
-
+	free(line);
 	return (0);
 }
