@@ -61,7 +61,7 @@ char *find_command(char *cmd)
 	size_t len;
 	int i;
 
-	if (access(cmd, X_OK) == 0)
+	if (strchr(cmd, '/') != NULL && access(cmd, X_OK) == 0)
 		return (strdup(cmd));
 
 	for (i = 0; environ[i]; i++)
