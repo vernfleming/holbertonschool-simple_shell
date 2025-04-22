@@ -90,6 +90,8 @@ char *find_command(char *cmd)
 			free(full_path);
 			token = strtok(NULL, ":");
 		}
+	free(path_copy);
+        return(0);
 }
 
 /**
