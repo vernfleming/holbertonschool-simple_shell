@@ -112,88 +112,92 @@ char *find_command(char *cmd)
 int main(void)
 {
   char *line = NULL, *command_path;
-	size_t len = 0;
-	ssize_t nread;
-	pid_t pid;
-	int status;
-	char **args;
+    size_t len = 0;
+    ssize_t nread;
+    pid_t pid;
+    int status, last_status = 0;
+    char **args;
 
-	while (1)
-	{
-		if (isatty(STDIN_FILENO))
-			write(STDOUT_FILENO, "#cisfun$ ", 9);
+    while (1)
+    {
+        if (isatty(STDIN_FILENO))
+            write(STDOUT_FILENO, "#cisfun$ ", 9);
 
-		nread = getline(&line, &len, stdin);
-		if (nread == -1)
-			break;
-		
+        nread = getline(&line, &len, stdin);
+        if (nread == -1)
+            break;
+        
 
-		args = split_line(line);
-		if (args[0] == NULL)
-		{
-			free(args);
-			continue;
-		}
+        args = split_line(line);
+        if (args[0] == NULL)
+        {
+            free(args);
+            continue;
+        }
 
-		if (strcmp(args[0], "exit") == 0)
-		{
-			free(args);
-			free(line);
-			exit(0);
-		}
+        if (strcmp(args[0], "exit") == 0)
+        {
+            free(args);
+            free(line);
+            exit(last_status); 
+        }
 
-		if (strcmp(args[0], "env") == 0)
-		
-		{
-			char **env = environ;
-			while (*env)
-			{
-				write(STDOUT_FILENO, *env, strlen(*env));
-				write(STDOUT_FILENO, "\n", 1);
-				env++;
-			}
-			free(args);
-			continue;
-		}
+        if (strcmp(args[0], "env") == 0)
+        
+        {
+            char **env = environ;
+            while (*env)
+            {
+                write(STDOUT_FILENO, *env, strlen(*env));
+                write(STDOUT_FILENO, "\n", 1);
+                env++;
+            }
+            free(args);
+            continue;
+        }
 
-		command_path = find_command(args[0]);
-		if (!command_path)
-		  {
-		    fprintf(stderr, "./hsh: 1: %s: not found\n", args[0]);
-		    free(args);
-		    if (!isatty(STDIN_FILENO))
-		      {
-			free(line);
-		    exit(127);
-		      }
-		    continue;
-		  }
+        command_path = find_command(args[0]);
+        if (!command_path)
+          {
+            fprintf(stderr, "./hsh: 1: %s: not found\n", args[0]);
+            free(args);
+            last_status = 127;
+            if (!isatty(STDIN_FILENO))
+              {
+            free(line);
+            exit(last_status);
+              }
+            continue;
+          }
 
-		pid = fork();
-		if (pid == 0)
-		{
+        pid = fork();
+        if (pid == 0)
+        {
 
-			if (execve(command_path, args, environ) == -1)
-			{
-				perror("./hsh");
-				exit(EXIT_FAILURE);
-			}
-		}
-		else if (pid > 0)
-		{
-			wait(&status);
-		}
-		else
-		{
-			perror("fork");
-			free(command_path);
-			free(args);
-			free(line);
-			exit(EXIT_FAILURE);
-		}
-		free(command_path);
-		free(args);
-	}
-	free(line);
-	return (0);
+            if (execve(command_path, args, environ) == -1)
+            {
+                perror("./hsh");
+                exit(EXIT_FAILURE);
+            }
+        }
+        else if (pid > 0)
+        {
+            wait(&status);
+            if (WIFEXITED(status)) {
+                last_status = WEXITSTATUS(status); 
+            }
+        }
+        else
+        {
+            perror("fork");
+            free(command_path);
+            free(args);
+            free(line);
+            exit(EXIT_FAILURE);
+        }
+        free(command_path);
+        free(args);
+    }
+    free(line);
+    return (last_status); 
 }
