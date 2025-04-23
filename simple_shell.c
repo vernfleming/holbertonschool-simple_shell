@@ -138,6 +138,8 @@ int main(void)
 
 		if (strcmp(args[0], "exit") == 0)
 		{
+			free(args);
+			free(line);
 			exit(0);
 		}
 
