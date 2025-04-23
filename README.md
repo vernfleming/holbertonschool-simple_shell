@@ -7,11 +7,13 @@ It is designed to mimic the behavior of `/bin/sh`, supporting both interactive a
 
 ## Features
 
-- Interactive shell with prompt (`$`)
+- Interactive shell with prompt (`#cisfun$`)
 - Non-interactive mode using pipes or redirection
 - Command execution using `execve`
 - Search and execution using the system `PATH`
-- Built-in `exit` command to quit the shell
+- Built-in commands:
+  - `exit`: Exit the shell with the status of the last executed command
+  - `env`: Print the current environment variables
 - Accurate handling of return values and error messages (just like `/bin/sh`)
 - Process creation using `fork`
 - Proper memory management (no leaks)
@@ -41,44 +43,81 @@ gcc -Wall -Werror -Wextra -pedantic -std=gnu89 *.c -o hsh
 
 ### Interactive Mode
 
-```$ ./hsh
-($) ls
+```
+$ ./hsh
+#cisfun$ ls
 file1 file2
-($) exit
+#cisfun$ env
+USER=username
+HOME=/home/username
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin
+#cisfun$ exit
 ```
 
 ### Non-Interactive Mode
 
-```$ echo "ls -l" | ./hsh
+```
+$ echo "ls -l" | ./hsh
 -rw-r--r-- 1 user user 1234 date file1
 ```
 
 ### Example Error Handling
 
-```$ ./hsh
-($) nonexistentcommand
+```
+$ ./hsh
+#cisfun$ nonexistentcommand
 ./hsh: 1: nonexistentcommand: not found
 ```
 
-### Allowed Functions and System Calls
+## Exit Status
 
-- access, chdir, close, execve, exit, _exit, fflush, fork, free, getcwd, getline, getpid
-- isatty, kill, malloc, open, opendir, perror, printf, fprintf, vfprintf, sprintf
-- putchar, read, readdir, signal, stat, lstat, fstat, strtok, wait, waitpid, wait3, wait4, write
-- All functions from string.h
+The shell returns the following exit status codes:
+- **0**: Success
+- **127**: Command not found
+- **Other values**: As returned by the executed command
+
+## Signal Handling
+
+The shell passes most signals to its child processes. Ctrl+C (SIGINT) will terminate the current foreground process but not the shell itself.
+
+---
+
+## Limitations
+
+This shell is for educational purposes and does not support advanced features such as:
+- Pipes (`|`)
+- Redirection (`>`, `<`)
+- Chaining commands using `&&`, `||`
+- Environment variable assignment or substitution
+
+---
+
+## Man Page
+
+A manual page is provided with the shell. To view it, run:
+```
+man ./man_1_simple_shell
+```
 
 ---
 
 ## Project Structure
 
-- main.c - Main loop and entry point
-- prompt.c - Handles displaying and reading input
-- tokenize.c - Splits command strings into arguments
-- executor.c - Handles command execution
-- path.c - Resolves full path using the PATH variable
-- utils.c - Helper functions for string and memory ops
-- builtins.c - Handles built-in commands like exit
-- README.md - Project documentation
+- simple_shell.c - Main loop and entry point, includes splitting input and command execution
+- version.h - Defines version information and header includes
+- README.md - Project Documentation
+- man_1_simple_shell - Man page
+- AUTHORS - Lists all individuals having contributed content to the repository
+
+---
+
+## Authors
+
+- **Jarryd Barrah**
+- **Isaac Dillon**
+- **Jin Liu**
+
+Written for Holberton School.
 
 ---
 

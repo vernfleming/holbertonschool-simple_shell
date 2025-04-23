@@ -25,19 +25,36 @@ Accept commands from standard input (e.g. via piping or file redirection).
 Searches the PATH for executables and runs them in child processes.
 .TP
 \fBBuilt-ins\fR
-Supports the built-in command \fBexit\fR to terminate the shell.
+Supports the following built-in commands:
+.RS
+.TP
+\fBexit\fR
+Exit the shell with the status of the most recently executed command. If no commands were executed, exits with status 0.
+.TP
+\fBenv\fR
+Print the current environment variables.
+.RE
 .TP
 \fBError Handling\fR
 Consistent with \fB/bin/sh\fR — error messages are prefixed with the value of \fBargv[0]\fR.
+
+.SH ENVIRONMENT
+.TP
+.B PATH
+Used to locate executable commands. The shell searches each directory in the PATH for the command.
 
 .SH USAGE
 .TP
 \fBInteractive Example:\fR
 .RS
 $ ./hsh  
-($) ls  
+#cisfun$ ls  
 file1 file2  
-($) exit  
+#cisfun$ env
+USER=username
+HOME=/home/username
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin
+#cisfun$ exit  
 .RE
 .TP
 \fBNon-Interactive Example:\fR
@@ -46,8 +63,20 @@ $ echo "/bin/ls" | ./hsh
 file1 file2  
 .RE
 
-.SH RETURN VALUE
-Returns the exit status of the last command executed. If the command is not found, returns 127.
+.SH EXIT STATUS
+The exit status is the value returned by the last executed command:
+.TP
+.B 0
+Success
+.TP
+.B 127
+Command not found
+.TP
+.B Other values
+As returned by the executed command
+
+.SH SIGNAL HANDLING
+The shell passes most signals to its child processes. Ctrl+C (SIGINT) will terminate the current foreground process but not the shell itself.
 
 .SH FILES
 .TP
@@ -64,8 +93,9 @@ This shell is for educational purposes and may not support advanced features suc
 - Chaining commands using `&&`, `||`
 - Environment variable assignment or substitution
 
+
 .SH AUTHOR
-Written by [Your Name], for Holberton School / ALX.
+Written by Jarryd Barrah, Isaac Dillon and Jin Liu, for Holberton School.
 
 .SH SEE ALSO
 .BR sh (1),
